@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cat /etc/lsb-release | grep DISTRIB_CODENAME | sed s/DISTRIB_CODENAME=//
