@@ -13,7 +13,7 @@
 ## Instructions
 
 ```
-$ curl -sSL https://raw.github.com/garage-env/base/master/install | bash
+$ curl -sSL https://raw.github.com/juniorz/garage-env/master/install | bash
 
 $ garage get ruby20
 $ garage ruby20 foo.rb

@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# $ docker build -t garage-env/base git://https://github.com/garage-env/base.git
+# $ docker build -t garage/base git://https://github.com/juniorz/garage-env.git
 # -------------------------------------------------------------------
 
 FROM stackbrew/ubuntu:saucy
