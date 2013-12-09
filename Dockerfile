@@ -18,6 +18,9 @@ RUN groupadd --gid 9999 garage &&\
 ADD garage /var/garage/
 RUN chgrp -R garage /var/garage
 
+# Base apps
+RUN /var/garage//install curl
+
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
