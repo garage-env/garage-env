@@ -1,0 +1,2 @@
+#!/bin/bash
+echo "This is a base image for garage-env. You should extend it to create your own garage environments."
