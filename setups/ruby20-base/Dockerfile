@@ -6,7 +6,7 @@ RUN apt-get update && apt-get upgrade -y
 
 ## Installs Ruby 2.0.0 from Brightbox PPA
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C3173AA6 &&\
-    echo deb http://ppa.launchpad.net/brightbox/ruby-ng/ubuntu precise main > /etc/apt/sources.list.d/brightbox.list &&\
+    echo "deb http://ppa.launchpad.net/brightbox/ruby-ng/ubuntu $(/var/garage/base-release) main" > /etc/apt/sources.list.d/brightbox.list &&\
     apt-get update &&\
     /var/garage/install ruby2.0 ruby2.0-dev
 
