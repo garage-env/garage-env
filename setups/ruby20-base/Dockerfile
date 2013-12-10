@@ -16,3 +16,6 @@ RUN echo "gem: --no-ri --no-rdoc" > /etc/gemrc &&\
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Provides ruby and irb
+ENV GARAGE_PROVIDES ruby irb
