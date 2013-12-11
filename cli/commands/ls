@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# find /garage-env/cli/wrappers/* -type f -name "*" -printf "%f %p\n"
+find $GARAGE_ROOT/wrappers/* -type f -name "${1:-*}" -printf "%f\n"

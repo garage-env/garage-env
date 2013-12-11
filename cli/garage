@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+GARAGE_ROOT="$(dirname "$0")/.."
+
+[[ "${DEBUG:-}" -gt 1 ]] && set -xeu
+debug_msg() { [[ -n "${DEBUG:-}" ]] && echo "[DEBUG]  $@" 1>&2; }
+
+command_file() {
+  echo "${GARAGE_ROOT}/cli/commands/${1}"
+}
+
+run_command() {
+  command=$1
+  shift
+
+  cmd=$(command_file $command)
+  if [[ -x $cmd ]]; then
+    debug_msg "running command: $command"
+    debug_msg "  with parameters: $@"
+
+    source $cmd $@
+  else
+    show_usage
+  fi
+}
+
+show_usage() {
+  source $(command_file "usage")
+}
+
+if [[ "$#" -gt 0 ]]; then
+  run_command "$@"
+else
+  show_usage
+fi

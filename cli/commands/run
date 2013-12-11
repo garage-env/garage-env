@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# garage run ruby foo.rb
+# garage run irb
+
+find_wrapper() {
+  find $GARAGE_ROOT/wrappers/* -type f -name "${1}" | head -n1
+}
+
+executable=$1
+shift
+
+wrapper=$(find_wrapper $executable)
+
+if [[ -z "$wrapper" ]]; then
+  echo "There is no $executable executable provided by any installed garage"
+  exit 1
+fi
+
+exec "$wrapper" "$@"
