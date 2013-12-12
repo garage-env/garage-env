@@ -1,4 +1,4 @@
-FROM garage/base
+FROM garage/erlang
 
 MAINTAINER Reinaldo Junior <juniorz@gmail.com>
 
@@ -9,7 +9,7 @@ RUN erl -noshell -eval 'io:fwrite("~s~n", [erlang:system_info(otp_release)]).' -
 
 ## Build and Install Elixir
 RUN /var/garage/install make git-core &&\
-    curl -L https://github.com/elixir-lang/elixir/archive/stable.tar.gz | tar -C /tmp/ -xzvf - &&\
+    curl -k -L https://github.com/elixir-lang/elixir/archive/stable.tar.gz | tar -C /tmp/ -xzvf - &&\
     cd /tmp/elixir-stable &&\
     make clean test &&\
     make install
