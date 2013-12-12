@@ -9,6 +9,10 @@ command_file() {
   echo "${GARAGE_ROOT}/cli/commands/${1}"
 }
 
+find_wrapper() {
+  find $GARAGE_ROOT/wrappers/* -type f -name "${1}" | head -n1
+}
+
 run_command() {
   command=$1
   shift
@@ -20,7 +24,14 @@ run_command() {
 
     source $cmd $@
   else
-    show_usage
+    # TODO use run instead of a wrapper
+    wrapper=$(find_wrapper $command)
+
+    if [[ -z "$wrapper" ]]; then
+      show_usage
+    else
+      exec "$wrapper" "$@"
+    fi
   fi
 }
 
