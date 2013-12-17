@@ -2,8 +2,7 @@
 
 GARAGE_ROOT="$(dirname "$0")/.."
 
-[[ "${DEBUG:-}" -gt 1 ]] && set -xeu
-debug_msg() { [[ -n "${DEBUG:-}" ]] && echo "[DEBUG]  $@" 1>&2; }
+source "$GARAGE_ROOT/cli/commands/_functions"
 
 command_file() {
   echo "${GARAGE_ROOT}/cli/commands/${1}"

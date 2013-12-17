@@ -1,0 +1,13 @@
+[[ "${DEBUG:-}" -gt 1 ]] && set -xeu
+debug_msg() { [[ -n "${DEBUG:-}" ]] && echo "[DEBUG]  $@" 1>&2; }
+
+image_from_garage() {
+  if [[ "$1" == *"/"* ]]; then
+    image_name="$1"
+  else
+    image_name="garage/$1"
+  fi
+
+  echo $image_name
+}
+
