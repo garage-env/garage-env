@@ -1,20 +1,58 @@
 #!/usr/bin/env bash
 
-# garage run ruby foo.rb
-# garage run irb
+# TODO
+# An alternative can be:
+# (DONE) If no command is specified, `garage` defaults to `garage run`
+# for installed environments
+# $ garage ruby foo.rb
+# $ garage irb
 
-find_wrapper() {
-  find $GARAGE_ROOT/wrappers/* -type f -name "${1}" | head -n1
-}
+# (DONE) `garage run` is the real run implementation. It knows how to handle containers:
+# $ garage run ruby20 ruby foo.rb
+# $ garage run foo/ruby ruby foo.rb
 
-executable=$1
-shift
+# It would also verify if the image provides the command and auto-install the environment.
 
-wrapper=$(find_wrapper $executable)
+# Every wrapper is just a call to `garage run` with the appropriate parameters
 
-if [[ -z "$wrapper" ]]; then
-  echo "There is no $executable executable provided by any installed garage"
+#executable=$1
+#shift
+
+#wrapper=$(find_wrapper $executable)
+#
+#if [[ -z "$wrapper" ]]; then
+#  echo "There is no $executable executable provided by any installed garage"
+#  exit 1
+#fi
+#
+#exec "$wrapper" "$@"
+
+if [[ "${#}" -lt 2 ]]; then
+  echo "Usage: $(basename ${0}) run ENVIRONMENT EXECUTABLE"
   exit 1
 fi
 
-exec "$wrapper" "$@"
+image_name=$(image_from_garage $1)
+cmd=$2
+
+shift
+shift
+
+#TODO: check if '$image_name' exists (or let it download at first use)
+# maybe it makes no sense, since you need to have the image installed to know what is provides
+
+# These two are the same (?)
+# exec docker run -P -rm -i -t -v \pwd\:/garage $image_name $cmd ${@}
+# exec docker run -P -rm -i -t -v \pwd\:/garage -w /garage -entrypoint $cmd $image_name ${@}
+
+#TODO: find better way to handle port forwarding
+exec docker run -P -rm -i -t -v `pwd`:/garage -w /garage -entrypoint $cmd $image_name ${@}
+
+# FIXME: Could be a better idea to get port information, but doesn't work for quick-run executables
+# INSTANCE_ID=$(docker run -d -P -i -t -v `pwd`:/garage -w /garage -entrypoint $cmd $image_name ${@} > /dev/stdout)
+# 
+# docker inspect -format='{{range $p, $conf := .NetworkSettings.Ports}} {{$p}} -> {{(index $conf 0).HostPort}} {{end}}' $INSTANCE_ID
+# 
+# docker attach $INSTANCE_ID
+# docker stop -t 20 $INSTANCE_ID > /dev/null
+# docker rm $INSTANCE_ID > /dev/null
