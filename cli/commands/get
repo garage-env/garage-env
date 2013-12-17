@@ -6,50 +6,19 @@
 # TODO:
 # garage get ruby20 <docker build command>
 
-after_create() {
-  image_name=$1
-
-  for cmd in $(docker run $image_name /var/garage/provides); do
-    create_wrapper_for $image_name $cmd
-  done
-}
-
-#TODO: make /garage volume configurable
-create_wrapper_for() {
-  image_name=$1
-  cmd=$2
-
-  wrapper_dir=$GARAGE_ROOT/wrappers/$image_name
-
-  mkdir -p $wrapper_dir
-  cat <<EOS > "$wrapper_dir/$cmd"
-#!/bin/bash
-
-#TODO: check if '$image_name' exists
-
-exec docker run -rm -i -t -v \`pwd\`:/garage $image_name $cmd \${@}
-EOS
-
-  chmod 0755 $wrapper_dir/$cmd
-}
-
-if [[ "$1" == *"/"* ]]; then
-  image_name="$1"
-else
-  image_name="garage/$1"
-fi
+image_name="$(image_from_garage $1)"
 
 debug_msg "Get image: $image_name"
 
 if [[ $(docker images -q $image_name | wc -l) -eq 0 ]]; then
   if [[ "$image_name" == "garage/"* ]]; then
-    docker pull garage/base 2> /dev/null
+    (docker images | grep -q "garage/base") || docker pull garage/base 2> /dev/null
   fi
 
   docker pull $image_name 2> /dev/null
 
   if [[ $? -eq 0 ]]; then
-    after_create $image_name
+    garage wrapper $image_name
   else
     echo "Failed to download $image_name"
   fi
