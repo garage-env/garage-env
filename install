@@ -1,3 +1,15 @@
 #!/usr/bin/env bash
 
-echo "Not yet!"
+set -xeu
+
+INSTALL_DIR="$HOME/.garage"
+
+garage_install() {
+  [ -e "$INSTALL_DIR" ] || mkdir "$INSTALL_DIR"
+
+  curl -L https://github.com/juniorz/garage-env/archive/master.tar.gz | tar -C $INSTALL_DIR --strip-components 1 -xzvf -
+
+  echo "Add ~/.garage/cli/ to you PATH"
+}
+
+garage_install "$@"
