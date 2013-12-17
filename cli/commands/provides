@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# TODO: find a better name do this command ;)
+# Maybe put it into the umbrella command
+# $ garage info ruby20 -provides
+
+# garage provides ruby20
+# > ruby irb gem bundler
+
+image_name=$(image_from_garage $1)
+echo $(docker run -rm $image_name /var/garage/provides)
