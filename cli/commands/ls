@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
 
 # find /garage-env/cli/wrappers/* -type f -name "*" -printf "%f %p\n"
-find $GARAGE_ROOT/wrappers/* -type f -name "${1:-*}" -printf "%f\n"
+candidates=$(find $GARAGE_ROOT/wrappers/* -type f -name "${1:-*}" -printf "%f\n")
+
+if [[ -z "$candidates" ]]; then
+  exit 1
+fi
+
+echo $candidates
