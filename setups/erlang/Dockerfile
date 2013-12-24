@@ -10,8 +10,14 @@ RUN curl -q http://packages.erlang-solutions.com/debian/erlang_solutions.asc | a
     apt-get update &&\
     /var/garage/install erlang
 
+## Installs rebar
+RUN /var/garage/install git &&\
+    git clone git://github.com/rebar/rebar.git /tmp/rebar &&\
+    cd /tmp/rebar && ./bootstrap &&\
+    mv ./rebar /usr/local/bin/ &&\
+    chmod 0755 /usr/local/bin/rebar
+
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Provides erl and erlc
-ENV GARAGE_PROVIDES erl erlc
+ENV GARAGE_PROVIDES erl erlc rebar
