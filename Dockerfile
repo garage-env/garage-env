@@ -27,4 +27,6 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 VOLUME ["/garage"]
 WORKDIR /garage
 
-CMD ["/var/garage/info", "--help"]
+# It is causing problems to switch
+# between using executable as CMD or ENTRYPOINT at `docker run`
+# CMD ["/var/garage/info", "--help"]
