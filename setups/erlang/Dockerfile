@@ -8,7 +8,7 @@ RUN apt-get update && apt-get upgrade -y
 RUN curl -q http://packages.erlang-solutions.com/debian/erlang_solutions.asc | apt-key add - &&\
     echo "deb http://packages.erlang-solutions.com/debian $(/var/garage/base-release) contrib" > /etc/apt/sources.list.d/erlang-solutions.list &&\
     apt-get update &&\
-    /var/garage/install erlang
+    /var/garage/install esl-erlang
 
 ## Installs rebar
 RUN /var/garage/install git &&\
