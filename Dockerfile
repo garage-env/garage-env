@@ -19,7 +19,7 @@ ADD garage /var/garage/
 RUN chgrp -R garage /var/garage
 
 # Base apps
-RUN /var/garage/install curl
+RUN /var/garage/install curl ca-certificates
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
