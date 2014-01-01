@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# docker pull garage/base
+
+for provider in /garage-env/wrappers/*; do
+  for garage in ${provider}/*; do
+    image_name="$(basename $provider)/$(basename $garage)"
+
+    echo "Updating $image_name"
+    garage get $image_name #-f
+    #docker pull $image_name
+  done
+done

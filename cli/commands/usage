@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
 
 usage() {
-  echo "USAGE..."
+  tee <<-EOS
+usage: $(basename ${0}) COMMAND
+
+  get       - install a garage
+  ls        - lists of available executables
+  provides  - lists of executables provided by a garage
+  run       - run an executable
+  update    - updates installed garages
+  wrapper   - create wrappers for a garage
+EOS
 }
 
 usage

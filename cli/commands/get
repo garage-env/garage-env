@@ -10,10 +10,10 @@ image_name="$(image_from_garage $1)"
 
 debug_msg "Get image: $image_name"
 
-if [[ $(docker images -q $image_name | wc -l) -eq 0 ]]; then
-  if [[ "$image_name" == "garage/"* ]]; then
-    (docker images | grep -q "garage/base") || docker pull garage/base 2> /dev/null
-  fi
+#if [[ $(docker images -q $image_name | wc -l) -eq 0 ]]; then
+#  if [[ "$image_name" == "garage/"* ]]; then
+#    (docker images | grep -q "garage/base") || docker pull garage/base 2> /dev/null
+#  fi
 
   docker pull $image_name 2> /dev/null
 
@@ -22,6 +22,6 @@ if [[ $(docker images -q $image_name | wc -l) -eq 0 ]]; then
   else
     echo "Failed to download $image_name"
   fi
-else
-  echo "Nothing to do!"
-fi
+#else
+#  echo "Nothing to do!"
+#fi
